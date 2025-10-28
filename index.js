@@ -33,6 +33,35 @@ app.get('/api', (req, res) => {
   res.json({ message: 'Hello from Express backend!' });
 });
 
+// Search players by name (autocomplete) - NUEVO
+app.get('/api/search/players', async (req, res) => {
+  try {
+    const { q, limit = 5 } = req.query;
+    
+    if (!playersCollection) {
+      return res.status(503).json({ error: 'Database connection not ready' });
+    }
+
+    if (!q || q.trim().length === 0) {
+      return res.json([]);
+    }
+
+    // Case-insensitive search with regex - busca por nombre o apellido
+    const searchRegex = new RegExp(q, 'i');
+    
+    const players = await playersCollection
+      .find({ strPlayer: searchRegex })
+      .limit(parseInt(limit))
+      .project({ strPlayer: 1, _id: 0 })
+      .toArray();
+
+    res.json(players);
+  } catch (error) {
+    console.error('Error searching players:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Get player by name endpoint
 app.get('/api/player/:name', async (req, res) => {
   try {

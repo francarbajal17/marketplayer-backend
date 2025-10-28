@@ -27,6 +27,53 @@ El servidor se ejecutará en `http://localhost:3000`
 
 ## Endpoints
 
+### GET /api/search/players
+
+**🔍 NUEVO - Búsqueda incremental de jugadores (Autocomplete)**
+
+Busca jugadores por nombre de forma incremental. Ideal para implementar autocomplete en el frontend.
+
+**Query Parameters:**
+- `q`: Término de búsqueda (requerido)
+- `limit`: Número máximo de resultados (opcional, default: 5)
+
+**Características:**
+- Búsqueda case-insensitive (no importa mayúsculas/minúsculas)
+- Búsqueda por prefijo (busca nombres que empiecen con el término)
+- Devuelve nombre, imagen y posición del jugador
+
+**Ejemplo de uso:**
+
+```bash
+# Buscar jugadores que empiecen con "Kyl"
+curl "http://localhost:3000/api/search/players?q=Kyl"
+
+# Buscar con límite personalizado
+curl "http://localhost:3000/api/search/players?q=K&limit=10"
+```
+
+**Respuesta:**
+```json
+[
+  {
+    "strPlayer": "Kylian Mbappé",
+    "strCutout": "URL de la imagen",
+    "strPosition": "Forward"
+  },
+  {
+    "strPlayer": "Kyle Walker",
+    "strCutout": "URL de la imagen",
+    "strPosition": "Right-Back"
+  }
+]
+```
+
+**Uso recomendado en Frontend:**
+- Implementar con **debouncing** (300ms) para evitar demasiadas peticiones
+- Ver ejemplos completos en `FRONTEND_EXAMPLE.md`
+
+---
+
 ### GET /api/player/:name
 
 Obtiene todos los campos de un jugador por su nombre.
