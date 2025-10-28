@@ -56,14 +56,10 @@ curl "http://localhost:3000/api/search/players?q=K&limit=10"
 ```json
 [
   {
-    "strPlayer": "Kylian Mbappé",
-    "strCutout": "URL de la imagen",
-    "strPosition": "Forward"
+    "strPlayer": "Kylian Mbappé"
   },
   {
-    "strPlayer": "Kyle Walker",
-    "strCutout": "URL de la imagen",
-    "strPosition": "Right-Back"
+    "strPlayer": "Kyle Walker"
   }
 ]
 ```

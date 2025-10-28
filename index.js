@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const { MongoClient } = require('mongodb');
 
 const app = express();
@@ -26,6 +27,7 @@ MongoClient.connect(mongoUri)
   });
 
 // Middleware
+app.use(cors()); // Habilita CORS para todos los orígenes
 app.use(express.json());
 
 // Simple API endpoint
@@ -136,7 +138,7 @@ app.get('/api/top-defensas', async (req, res) => {
 
     const defenders = await playersCollection
       .find({
-        strPosition: { $in: ['Center-Back', 'Left-Back', 'Right-Back'] },
+        strPosition: { $in: ['Center-Back', 'Centre-Back', 'Left-Back', 'Right-Back'] },
         Tkl: { $gt: 20 },
         TklW: { $exists: true, $ne: null }
       })
